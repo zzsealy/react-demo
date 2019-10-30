@@ -15,23 +15,29 @@ function Square(props) {
       super(props);
       this.state = {
         squares: Array(9).fill(null),
+        xIsNext: true,
       };
     }
     handleClick(i) {
       const squares = this.state.squares.slice();
-      squares[i] = 'X';
-      this.setState({squares: squares}); // 定义了这个方法才会重新渲染。
+      squares[i] = this.state.xIsNext ? 'X':'O';
+      this.setState({ // 定义了这个方法才会重新渲染。
+        squares: squares,
+        xIsNext: !this.state.xIsNext,
+      });
     }
 
     renderSquare(i) {
-      return <Square 
-        value={this.state.squares[i]}
+      return (
+      <Square 
+        value={this.state.squares[i]} // 最初传过来的是null
         onClick={() => this.handleClick(i)} 
-        />;
+        />
+      );
     }
   
     render() {
-      const status = '玩一个井字棋！';
+      const status = '下一个玩家是:' + (this.state.xIsNext ? 'X':'O');
   
       return (
         <div>
